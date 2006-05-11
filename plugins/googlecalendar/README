@@ -6,6 +6,9 @@ Author
 =======
 Benjamin Francisoud  - http://rubyscube.blogspot.com
 
+Install
+=====
+>ruby script/plugin install svn://rubyforge.org//var/svn/googlecalendar/plugins/googlecalendar
+
 Usage
 =====
-TODO
