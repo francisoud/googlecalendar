@@ -1,6 +1,6 @@
 require 'googlecalendar.rb'
 
-class TestController < ApplicationController
+class GooglecalendarController < ApplicationController
   def index
     data = scan("/calendar/ical/french@holiday.calendar.google.com/public/basic")
     calendar = parse data

@@ -1,0 +1,18 @@
+<html>
+<head>
+    <title>Google Calendar</tilte>
+    <link rel="stylesheet" href="/stylesheets/calendar/blue/style.css">
+	<style type="text/css">
+		.specialDay {background-color: red; font-weight: bold; color: black;}
+	</style>
+</head>
+<body>
+<h1>A simple google calendar for french holidays</h1>
+<%=calendar(:year => Time.new.year, :month => Time.new.month) do |d|
+    if @events.include?(d)
+      [d.mday, {:class => "specialDay"}]
+    end
+  end
+%>
+</body>
+</html>

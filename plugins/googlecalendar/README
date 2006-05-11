@@ -21,6 +21,7 @@ For more informations about this plugin: http://wiki.rubyonrails.com/rails/pages
 
 Usage
 =====
+[railsapp]>ruby script/generate googlecalendar
 
 Author
 =======
