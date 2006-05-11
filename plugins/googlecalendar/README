@@ -1,14 +1,27 @@
 GoogleCalendarGenerator
-==============
-TODO
+=======================
+Plugin generator for Ruby On Rails
+Allow to display google Calendar events in a Rails application.
+
+- Project page:   http://benjamin.francisoud.googlepages.com/googlecalendar
+- RubyForge page: http://rubyforge.org/projects/googlecalendar/
+
+Install
+=======
+[railsapp]>ruby script/plugin install svn://rubyforge.org//var/svn/googlecalendar/plugins/googlecalendar
+
+Dependancy
+==========
+You need to install the CalendarHelperPlugin:
+[railsapp]>ruby script/plugin install http://topfunky.net/svn/plugins/calendar_helper
+[railsapp]/vendor/plugins/calendar_helper>rake rdoc
+[railsapp]>ruby script/generate calendar_styles
+
+For more informations about this plugin: http://wiki.rubyonrails.com/rails/pages/Calendar+Helper+Plugin
+
+Usage
+=====
 
 Author
 =======
 Benjamin Francisoud  - http://rubyscube.blogspot.com
-
-Install
-=====
->ruby script/plugin install svn://rubyforge.org//var/svn/googlecalendar/plugins/googlecalendar
-
-Usage
-=====
