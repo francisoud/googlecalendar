@@ -1,3 +1,14 @@
+== 1.0.2 == (Mai 15th, 2006)
+* Refactor googlecalendar to a single rb file
 
-== 0.1 == (Mai 11th, 2006)
+== 1.0.1 == (Mai 11th, 2006)
 * Started project
+
+== About Versions
+Version number: major.minor.build
+# Compatible release
+    * increment the build number
+# Backward compatible, new feature release
+    * increment minor number
+# Backward incompatible release
+    * increment the major number.

@@ -1,5 +1,6 @@
 require File.dirname(__FILE__) + '/../shared.rb'
-require File.dirname(__FILE__) + '/../../lib/googlecalendar'
+require File.dirname(__FILE__) + '/../../lib/builders'
+require File.dirname(__FILE__) + '/../../plugins/googlecalendar/lib/googlecalendar'
 
 
 data = scan french_holidays
