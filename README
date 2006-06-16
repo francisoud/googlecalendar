@@ -5,7 +5,7 @@ The Google Calendar project provides
  - A plugin for Ruby On Rails.
 
 == License
-Active Record is released under the Apache license.
+GoogleCalendar for Ruby is released under the Apache license.
 
 == Support
 http://rubyforge.org/projects/googlecalendar/

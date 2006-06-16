@@ -1,8 +1,9 @@
 require File.dirname(__FILE__) + '/../shared.rb'
-require File.dirname(__FILE__) + '/../../lib/builders'
-require File.dirname(__FILE__) + '/../../plugins/googlecalendar/lib/googlecalendar'
 
+def html_export
+  data = scan french_holidays
+  calendar = parse data
+  html calendar, 'output/results.html'
+end
 
-data = scan french_holidays
-calendar = parse data
-html calendar, 'output/results.html'
+html_export

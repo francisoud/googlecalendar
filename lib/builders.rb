@@ -1,3 +1,5 @@
+require File.dirname(__FILE__) + '/googlecalendar'
+
 class TextBuilder
   attr_accessor :calendar, :filename
   
