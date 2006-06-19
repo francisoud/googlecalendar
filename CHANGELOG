@@ -1,12 +1,12 @@
 = Versions
 
-=== 1.0.2 (June 16th, 2006)
+=== 0.0.2 (June 16th, 2006)
 * Refactor googlecalendar to a single rb file
 * Add Rakefile
 * Add Gem, Zip, Tar packaging
 * Add RDoc
 
-=== 1.0.1 (Mai 11th, 2006)
+=== 0.0.1 (Mai 11th, 2006)
 * Started project
 
 = About Versioning

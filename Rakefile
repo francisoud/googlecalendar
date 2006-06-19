@@ -8,7 +8,7 @@ require 'rake/contrib/rubyforgepublisher'
 
 project_name = 'googlecalendar'
 project_title = "Google Calendar api for Ruby"
-current_version = "1.0.2"
+current_version = "0.0.2"
 gem_name = project_name + "-" + current_version
 
 desc "Default Task"
@@ -55,21 +55,21 @@ Rake::RDocTask.new { |rdoc|
 # Publishing ------------------------------------------------------
 desc "Publish the beta gem"
 task :pgem => [:package] do 
-  Rake::SshFilePublisher.new("pub.cog@gmail.com", "public_html/gems/gems", "pkg", gem_name + ".gem").upload
-  `ssh pub.cog@gmail.com './gemupdate.sh'`
+  Rake::SshFilePublisher.new("cogito@rubyforge.org", "public_html/gems/gems", "pkg", gem_name + ".gem").upload
+  `ssh cogito@rubyforge.org './gemupdate.sh'`
 end
 
 desc "Publish the API documentation"
 task :pdoc => [:rdoc] do 
-  Rake::SshDirPublisher.new("pub.cog@gmail.com", "public_html/ar", "doc").upload
+  Rake::SshDirPublisher.new("cogito@rubyforge.org", "/var/www/gforge-projects/googlecalendar/doc", "doc").upload
 end
 
 desc "Publish the release files to RubyForge."
 task :release => [ :package ] do
-  `rubyforge login`
+  `command rubyforge login --config ./config.yml`
 
   for ext in %w( tgz zip)
-    release_command = "rubyforge add_release " + project_name + " " + project_name + " 'REL " + current_version + "' pkg/googleclendar-1.0.2.#{ext}"
+    release_command = "command /c rubyforge add_release " + project_name + " " + project_name + " 'REL " + current_version + "' pkg/" + gem_name + ".#{ext}"
     puts release_command
     `#{release_command}`
   end

@@ -1,0 +1,76 @@
+#
+# base rubyforge uri - store in \Documents and Settings\Benjamin/.rubyforge/config.yml
+#
+  uri        : http://rubyforge.org
+#
+# this must be your username
+#
+  username   : cogito 
+#
+# this must be your password
+#
+  password   : REPLACE_THIS 
+#
+# defaults for some values 
+#
+  defaults :
+    cookie_jar : \Documents and Settings\Benjamin/.rubyforge/cookie.dat 
+    is_private : false
+#
+# server side rubyforge configuration
+#
+  rubyforge :
+  #
+  # map your package names to their rubyforge ids
+  #
+    package_ids : 2002
+      traits : 1241
+  #
+  # map your group names to their rubyforge ids
+  #
+    group_ids : 1666
+      codeforpeople.com : 1024
+  #
+  # mapping file exts to rubyforge ids
+  #
+    type_ids :
+      .deb         : 1000
+      .rpm         : 2000
+      .zip         : 3000
+      .bz2         : 3100
+      .gz          : 3110
+      .src.zip     : 5000
+      .src.bz2     : 5010
+      .src.tar.bz2 : 5010
+      .src.gz      : 5020
+      .src.tar.gz  : 5020
+      .src.rpm     : 5100
+      .src         : 5900
+      .jpg         : 8000
+      .txt         : 8100
+      .text        : 8100
+      .htm         : 8200
+      .html        : 8200
+      .pdf         : 8300
+      .oth         : 9999
+      .ebuild      : 1300
+      .exe         : 1100
+      .dmg         : 1200
+      .tar.gz      : 5000
+      .tgz         : 5000
+      .gem         : 1400
+      .pgp         : 8150
+      .sig         : 8150
+  #
+  # map processor names to rubyforge ids
+  #
+    processor_ids :
+      i386       : 1000
+      IA64       : 6000
+      Alpha      : 7000
+      Any        : 8000
+      PPC        : 2000
+      MIPS       : 3000
+      Sparc      : 4000
+      UltraSparc : 5000
+      Other      : 9999
