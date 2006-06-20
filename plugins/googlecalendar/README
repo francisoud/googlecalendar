@@ -4,7 +4,7 @@ Allow to display google Calendar events in a Rails application.
 
 * Project page:   http://benjamin.francisoud.googlepages.com/googlecalendar
 * RubyForge page: http://rubyforge.org/projects/googlecalendar
-* API reference: http://googlecalendar.rubyforge.org/doc
+* Ruby standalone api doc: http://googlecalendar.rubyforge.org/doc
 
 == Install
 * [railsapp]>ruby script/plugin install svn://rubyforge.org//var/svn/googlecalendar/plugins/googlecalendar
