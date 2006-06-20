@@ -23,8 +23,11 @@ spec = Gem::Specification.new do |s|
   s.files = ["README", "CHANGELOG"] + Dir['lib/**/*.rb']
   s.require_path = 'lib'
   s.autorequire = project_name
-  s.has_rdoc = false
+  s.has_rdoc = true
   s.rubyforge_project = project_name
+  s.author = "Benjamin Francisoud"
+  s.email = "cogito@rubyforge.org"
+  s.homepage = "http://benjamin.francisoud.googlepages.com/googlecalendar"
 end
   
 Rake::GemPackageTask.new(spec) do |p|
@@ -53,23 +56,18 @@ Rake::RDocTask.new { |rdoc|
 }
 
 # Publishing ------------------------------------------------------
-desc "Publish the beta gem"
-task :pgem => [:package] do 
-  Rake::SshFilePublisher.new("cogito@rubyforge.org", "public_html/gems/gems", "pkg", gem_name + ".gem").upload
-  `ssh cogito@rubyforge.org './gemupdate.sh'`
-end
-
 desc "Publish the API documentation"
 task :pdoc => [:rdoc] do 
   Rake::SshDirPublisher.new("cogito@rubyforge.org", "/var/www/gforge-projects/googlecalendar/doc", "doc").upload
 end
 
+# --config ./config.yml
 desc "Publish the release files to RubyForge."
 task :release => [ :package ] do
-  `command rubyforge login --config ./config.yml`
+  `call rubyforge login`
 
   for ext in %w( tgz zip)
-    release_command = "command /c rubyforge add_release " + project_name + " " + project_name + " 'REL " + current_version + "' pkg/" + gem_name + ".#{ext}"
+    release_command = "call rubyforge add_release " + project_name + " " + project_name + " 'REL " + current_version + "' pkg/" + gem_name + ".#{ext}"
     puts release_command
     `#{release_command}`
   end
