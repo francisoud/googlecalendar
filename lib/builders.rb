@@ -77,6 +77,7 @@ class HtmlBuilder
     details << div(event, 'created')
     details << div(event, 'last_modified')
     details << div(event, 'status')
+    details << div(event, 'rrule')
     details << div(event, 'class_name')
     details << "</div>"
   end

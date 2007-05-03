@@ -1,5 +1,9 @@
 = Versions
 
+=== 0.0.3 (May 5th, 2007)
+* Handle recurring events
+** Added a rrule property and a rrule_as_hash method
+
 === 0.0.2 (June 16th, 2006)
 * Refactor googlecalendar to a single rb file
 * Add Rakefile

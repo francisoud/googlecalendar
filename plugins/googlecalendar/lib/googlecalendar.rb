@@ -24,7 +24,7 @@ class Calendar
 end
 
 class Event
-  attr_accessor :start_date, :end_date, :time_stamp, :class_name, :created, :last_modified, :status, :summary
+  attr_accessor :start_date, :end_date, :time_stamp, :class_name, :created, :last_modified, :status, :summary, :rrule
   
   def to_s
     data = "---------- event ----------\n"
@@ -35,8 +35,20 @@ class Event
     data << 'created: ' + @created.to_s + "\n"
     data << 'last_modified: ' + @last_modified.to_s + "\n"
     data << 'status: ' + @status.to_s + "\n"
+    data << 'rrule: ' + @rrule.to_s + "\n"
     data << 'summary: ' + @summary.to_s + "\n"
     return data
+  end
+
+  # 'FREQ=WEEKLY;BYDAY=MO;WKST=MO'  
+  def rrule_as_hash
+    array = @rrule.split(';')
+    hash = Hash.new
+    array.each do |item| 
+      pair = item.split('=')
+      hash[pair[0]] = pair[1]
+    end 
+    return hash
   end
 end
 
@@ -139,6 +151,10 @@ class ICALParser
 
   def handle_vevent_summary(value)
     @calendar.events.last.summary = value
+  end
+  
+  def handle_vevent_rrule(value)
+    @calendar.events.last.rrule = value
   end
 end
 
