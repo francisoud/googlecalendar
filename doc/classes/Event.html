@@ -86,7 +86,8 @@
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000029">to_s</a>&nbsp;&nbsp;
+      <a href="#M000034">rrule_as_hash</a>&nbsp;&nbsp;
+      <a href="#M000033">to_s</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -127,6 +128,11 @@
           <td class="context-item-desc"></td>
         </tr>
         <tr class="top-aligned-row context-row">
+          <td class="context-item-name">rrule</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
           <td class="context-item-name">start_date</td>
           <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
           <td class="context-item-desc"></td>
@@ -156,33 +162,66 @@
     <div id="methods">
       <h3 class="section-bar">Public Instance methods</h3>
 
-      <div id="method-M000029" class="method-detail">
-        <a name="M000029"></a>
+      <div id="method-M000034" class="method-detail">
+        <a name="M000034"></a>
 
         <div class="method-heading">
-          <a href="#M000029" class="method-signature">
+          <a href="#M000034" class="method-signature">
+          <span class="method-name">rrule_as_hash</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+&#8216;FREQ=WEEKLY;BYDAY=MO;WKST=MO&#8216;
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000034-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000034-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 45</span>
+45:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rrule_as_hash</span>
+46:     <span class="ruby-identifier">array</span> = <span class="ruby-ivar">@rrule</span>.<span class="ruby-identifier">split</span>(<span class="ruby-value str">';'</span>)
+47:     <span class="ruby-identifier">hash</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+48:     <span class="ruby-identifier">array</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">item</span><span class="ruby-operator">|</span> 
+49:       <span class="ruby-identifier">pair</span> = <span class="ruby-identifier">item</span>.<span class="ruby-identifier">split</span>(<span class="ruby-value str">'='</span>)
+50:       <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">pair</span>[<span class="ruby-value">0</span>]] = <span class="ruby-identifier">pair</span>[<span class="ruby-value">1</span>]
+51:     <span class="ruby-keyword kw">end</span> 
+52:     <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">hash</span>
+53:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000033" class="method-detail">
+        <a name="M000033"></a>
+
+        <div class="method-heading">
+          <a href="#M000033" class="method-signature">
           <span class="method-name">to_s</span><span class="method-args">()</span>
           </a>
         </div>
       
         <div class="method-description">
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000029-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000029-source">
+            onclick="toggleCode('M000033-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000033-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 29</span>
-29:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_s</span>
-30:     <span class="ruby-identifier">data</span> = <span class="ruby-value str">&quot;---------- event ----------\n&quot;</span>
-31:     <span class="ruby-identifier">data</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">'start_date: '</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@start_date</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;\n&quot;</span>
-32:     <span class="ruby-identifier">data</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">'end_date: '</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@end_date</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;\n&quot;</span>
-33:     <span class="ruby-identifier">data</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">'time_stamp: '</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@time_stamp</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;\n&quot;</span>
-34:     <span class="ruby-identifier">data</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">'class_name: '</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@class_name</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;\n&quot;</span>
-35:     <span class="ruby-identifier">data</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">'created: '</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@created</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;\n&quot;</span>
-36:     <span class="ruby-identifier">data</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">'last_modified: '</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@last_modified</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;\n&quot;</span>
-37:     <span class="ruby-identifier">data</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">'status: '</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@status</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;\n&quot;</span>
-38:     <span class="ruby-identifier">data</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">'summary: '</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@summary</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;\n&quot;</span>
-39:     <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">data</span>
-40:   <span class="ruby-keyword kw">end</span>
+    <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 30</span>
+30:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_s</span>
+31:     <span class="ruby-identifier">data</span> = <span class="ruby-value str">&quot;---------- event ----------\n&quot;</span>
+32:     <span class="ruby-identifier">data</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">'start_date: '</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@start_date</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;\n&quot;</span>
+33:     <span class="ruby-identifier">data</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">'end_date: '</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@end_date</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;\n&quot;</span>
+34:     <span class="ruby-identifier">data</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">'time_stamp: '</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@time_stamp</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;\n&quot;</span>
+35:     <span class="ruby-identifier">data</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">'class_name: '</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@class_name</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;\n&quot;</span>
+36:     <span class="ruby-identifier">data</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">'created: '</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@created</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;\n&quot;</span>
+37:     <span class="ruby-identifier">data</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">'last_modified: '</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@last_modified</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;\n&quot;</span>
+38:     <span class="ruby-identifier">data</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">'status: '</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@status</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;\n&quot;</span>
+39:     <span class="ruby-identifier">data</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">'rrule: '</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@rrule</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;\n&quot;</span>
+40:     <span class="ruby-identifier">data</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">'summary: '</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@summary</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;\n&quot;</span>
+41:     <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">data</span>
+42:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>

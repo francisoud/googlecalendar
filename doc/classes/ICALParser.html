@@ -101,6 +101,7 @@
       <a href="#M000020">handle_vevent_dtstart</a>&nbsp;&nbsp;
       <a href="#M000019">handle_vevent_end</a>&nbsp;&nbsp;
       <a href="#M000025">handle_vevent_last_modified</a>&nbsp;&nbsp;
+      <a href="#M000028">handle_vevent_rrule</a>&nbsp;&nbsp;
       <a href="#M000026">handle_vevent_status</a>&nbsp;&nbsp;
       <a href="#M000027">handle_vevent_summary</a>&nbsp;&nbsp;
       <a href="#M000009">parse</a>&nbsp;&nbsp;
@@ -153,14 +154,14 @@
             onclick="toggleCode('M000012-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000012-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 71</span>
-71:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_begin</span>(<span class="ruby-identifier">value</span>)
-72:     <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">value</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;VCALENDAR&quot;</span>
-73:       <span class="ruby-identifier">handle_vcalendar_begin</span>(<span class="ruby-identifier">value</span>)
-74:     <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">value</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;VEVENT&quot;</span>
-75:       <span class="ruby-identifier">handle_vevent_begin</span>(<span class="ruby-identifier">value</span>)
-76:     <span class="ruby-keyword kw">end</span>
-77:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 179</span>
+179:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_begin</span>(<span class="ruby-identifier">value</span>)
+180:     <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">value</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;VCALENDAR&quot;</span>
+181:       <span class="ruby-identifier">handle_vcalendar_begin</span>(<span class="ruby-identifier">value</span>)
+182:     <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">value</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;VEVENT&quot;</span>
+183:       <span class="ruby-identifier">handle_vevent_begin</span>(<span class="ruby-identifier">value</span>)
+184:     <span class="ruby-keyword kw">end</span>
+185:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -180,16 +181,16 @@
             onclick="toggleCode('M000010-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000010-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 57</span>
-57:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_element</span>(<span class="ruby-identifier">line</span>)
-58:     <span class="ruby-identifier">pair</span> = <span class="ruby-identifier">line</span>.<span class="ruby-identifier">split</span>(<span class="ruby-value str">':'</span>)
-59:     <span class="ruby-identifier">name</span> = <span class="ruby-identifier">pair</span>[<span class="ruby-value">0</span>]
-60:     <span class="ruby-identifier">value</span> = <span class="ruby-identifier">pair</span>[<span class="ruby-value">1</span>]
-61:     <span class="ruby-identifier">handler_method</span> = <span class="ruby-ivar">@method_prefix</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">split</span>(<span class="ruby-value str">';'</span>)[<span class="ruby-value">0</span>].<span class="ruby-identifier">tr</span>(<span class="ruby-value str">'-'</span>, <span class="ruby-value str">'_'</span>).<span class="ruby-identifier">downcase</span>
-62:     <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">respond_to?</span> <span class="ruby-identifier">handler_method</span>
-63:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">handler_method</span>, <span class="ruby-identifier">value</span>.<span class="ruby-identifier">chomp</span>)
-64:     <span class="ruby-keyword kw">end</span>
-65:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 165</span>
+165:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_element</span>(<span class="ruby-identifier">line</span>)
+166:     <span class="ruby-identifier">pair</span> = <span class="ruby-identifier">line</span>.<span class="ruby-identifier">split</span>(<span class="ruby-value str">':'</span>)
+167:     <span class="ruby-identifier">name</span> = <span class="ruby-identifier">pair</span>[<span class="ruby-value">0</span>]
+168:     <span class="ruby-identifier">value</span> = <span class="ruby-identifier">pair</span>[<span class="ruby-value">1</span>]
+169:     <span class="ruby-identifier">handler_method</span> = <span class="ruby-ivar">@method_prefix</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">split</span>(<span class="ruby-value str">';'</span>)[<span class="ruby-value">0</span>].<span class="ruby-identifier">tr</span>(<span class="ruby-value str">'-'</span>, <span class="ruby-value str">'_'</span>).<span class="ruby-identifier">downcase</span>
+170:     <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">respond_to?</span> <span class="ruby-identifier">handler_method</span>
+171:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">handler_method</span>, <span class="ruby-identifier">value</span>.<span class="ruby-identifier">chomp</span>)
+172:     <span class="ruby-keyword kw">end</span>
+173:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -209,11 +210,11 @@
             onclick="toggleCode('M000014-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000014-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 83</span>
-83:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vcalendar_begin</span>(<span class="ruby-identifier">value</span>)
-84:     <span class="ruby-ivar">@calendar</span> = <span class="ruby-constant">Calendar</span>.<span class="ruby-identifier">new</span>
-85:     <span class="ruby-ivar">@method_prefix</span> = <span class="ruby-ivar">@method_prefix</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">downcase</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;_&quot;</span>
-86:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 191</span>
+191:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vcalendar_begin</span>(<span class="ruby-identifier">value</span>)
+192:     <span class="ruby-ivar">@calendar</span> = <span class="ruby-constant">Calendar</span>.<span class="ruby-identifier">new</span>
+193:     <span class="ruby-ivar">@method_prefix</span> = <span class="ruby-ivar">@method_prefix</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">downcase</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;_&quot;</span>
+194:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -233,10 +234,10 @@
             onclick="toggleCode('M000016-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000016-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 92</span>
-92:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vcalendar_calscale</span>(<span class="ruby-identifier">value</span>)
-93:     <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">scale</span> = <span class="ruby-identifier">value</span>
-94:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 200</span>
+200:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vcalendar_calscale</span>(<span class="ruby-identifier">value</span>)
+201:     <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">scale</span> = <span class="ruby-identifier">value</span>
+202:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -256,10 +257,10 @@
             onclick="toggleCode('M000013-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000013-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 79</span>
-79:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vcalendar_end</span>(<span class="ruby-identifier">value</span>)
-80:     <span class="ruby-identifier">reset_prefix</span>
-81:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 187</span>
+187:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vcalendar_end</span>(<span class="ruby-identifier">value</span>)
+188:     <span class="ruby-identifier">reset_prefix</span>
+189:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -279,12 +280,12 @@
             onclick="toggleCode('M000017-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000017-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 96</span>
- 96:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vcalendar_method</span>(<span class="ruby-identifier">value</span>)
- 97:     <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">method</span> = <span class="ruby-identifier">value</span>
- 98:     <span class="ruby-comment cmt"># FIXME don't like to do this!</span>
- 99:     <span class="ruby-identifier">reset_prefix</span>
-100:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 204</span>
+204:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vcalendar_method</span>(<span class="ruby-identifier">value</span>)
+205:     <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">method</span> = <span class="ruby-identifier">value</span>
+206:     <span class="ruby-comment cmt"># FIXME don't like to do this!</span>
+207:     <span class="ruby-identifier">reset_prefix</span>
+208:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -304,10 +305,10 @@
             onclick="toggleCode('M000015-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000015-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 88</span>
-88:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vcalendar_version</span>(<span class="ruby-identifier">value</span>)
-89:     <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">version</span> = <span class="ruby-identifier">value</span>
-90:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 196</span>
+196:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vcalendar_version</span>(<span class="ruby-identifier">value</span>)
+197:     <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">version</span> = <span class="ruby-identifier">value</span>
+198:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -327,12 +328,12 @@
             onclick="toggleCode('M000018-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000018-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 102</span>
-102:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vevent_begin</span>(<span class="ruby-identifier">value</span>)
-103:       <span class="ruby-identifier">event</span> = <span class="ruby-constant">Event</span>.<span class="ruby-identifier">new</span>
-104:       <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">add</span> <span class="ruby-identifier">event</span>
-105:       <span class="ruby-ivar">@method_prefix</span> = <span class="ruby-ivar">@method_prefix</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">downcase</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;_&quot;</span>
-106:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 210</span>
+210:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vevent_begin</span>(<span class="ruby-identifier">value</span>)
+211:       <span class="ruby-identifier">event</span> = <span class="ruby-constant">Event</span>.<span class="ruby-identifier">new</span>
+212:       <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">add</span> <span class="ruby-identifier">event</span>
+213:       <span class="ruby-ivar">@method_prefix</span> = <span class="ruby-ivar">@method_prefix</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">downcase</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;_&quot;</span>
+214:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -352,10 +353,10 @@
             onclick="toggleCode('M000023-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000023-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 124</span>
-124:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vevent_class</span>(<span class="ruby-identifier">value</span>)
-125:     <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">events</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">class_name</span> = <span class="ruby-identifier">value</span>
-126:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 232</span>
+232:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vevent_class</span>(<span class="ruby-identifier">value</span>)
+233:     <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">events</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">class_name</span> = <span class="ruby-identifier">value</span>
+234:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -375,10 +376,10 @@
             onclick="toggleCode('M000024-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000024-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 128</span>
-128:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vevent_created</span>(<span class="ruby-identifier">value</span>)
-129:     <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">events</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">created</span> = <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">value</span>)
-130:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 236</span>
+236:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vevent_created</span>(<span class="ruby-identifier">value</span>)
+237:     <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">events</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">created</span> = <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">value</span>)
+238:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -398,10 +399,10 @@
             onclick="toggleCode('M000021-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000021-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 116</span>
-116:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vevent_dtend</span>(<span class="ruby-identifier">value</span>)
-117:     <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">events</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">end_date</span> = <span class="ruby-constant">Date</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">value</span>)
-118:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 224</span>
+224:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vevent_dtend</span>(<span class="ruby-identifier">value</span>)
+225:     <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">events</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">end_date</span> = <span class="ruby-constant">Date</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">value</span>)
+226:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -421,10 +422,10 @@
             onclick="toggleCode('M000022-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000022-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 120</span>
-120:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vevent_dtstamp</span>(<span class="ruby-identifier">value</span>)
-121:     <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">events</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">time_stamp</span> = <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">value</span>)
-122:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 228</span>
+228:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vevent_dtstamp</span>(<span class="ruby-identifier">value</span>)
+229:     <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">events</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">time_stamp</span> = <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">value</span>)
+230:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -444,10 +445,10 @@
             onclick="toggleCode('M000020-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000020-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 112</span>
-112:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vevent_dtstart</span>(<span class="ruby-identifier">value</span>)
-113:     <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">events</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">start_date</span> = <span class="ruby-constant">Date</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">value</span>)
-114:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 220</span>
+220:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vevent_dtstart</span>(<span class="ruby-identifier">value</span>)
+221:     <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">events</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">start_date</span> = <span class="ruby-constant">Date</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">value</span>)
+222:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -467,10 +468,10 @@
             onclick="toggleCode('M000019-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000019-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 108</span>
-108:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vevent_end</span>(<span class="ruby-identifier">value</span>)
-109:     <span class="ruby-identifier">reset_prefix</span>
-110:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 216</span>
+216:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vevent_end</span>(<span class="ruby-identifier">value</span>)
+217:     <span class="ruby-identifier">reset_prefix</span>
+218:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -490,10 +491,33 @@
             onclick="toggleCode('M000025-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000025-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 132</span>
-132:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vevent_last_modified</span>(<span class="ruby-identifier">value</span>)
-133:     <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">events</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">last_modified</span> = <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">value</span>)
-134:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 240</span>
+240:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vevent_last_modified</span>(<span class="ruby-identifier">value</span>)
+241:     <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">events</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">last_modified</span> = <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">value</span>)
+242:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000028" class="method-detail">
+        <a name="M000028"></a>
+
+        <div class="method-heading">
+          <a href="#M000028" class="method-signature">
+          <span class="method-name">handle_vevent_rrule</span><span class="method-args">(value)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000028-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000028-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 252</span>
+252:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vevent_rrule</span>(<span class="ruby-identifier">value</span>)
+253:     <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">events</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">rrule</span> = <span class="ruby-identifier">value</span>
+254:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -513,10 +537,10 @@
             onclick="toggleCode('M000026-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000026-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 136</span>
-136:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vevent_status</span>(<span class="ruby-identifier">value</span>)
-137:     <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">events</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">status</span> = <span class="ruby-identifier">value</span>
-138:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 244</span>
+244:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vevent_status</span>(<span class="ruby-identifier">value</span>)
+245:     <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">events</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">status</span> = <span class="ruby-identifier">value</span>
+246:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -536,10 +560,10 @@
             onclick="toggleCode('M000027-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000027-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 140</span>
-140:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vevent_summary</span>(<span class="ruby-identifier">value</span>)
-141:     <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">events</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">summary</span> = <span class="ruby-identifier">value</span>
-142:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 248</span>
+248:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_vevent_summary</span>(<span class="ruby-identifier">value</span>)
+249:     <span class="ruby-ivar">@calendar</span>.<span class="ruby-identifier">events</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">summary</span> = <span class="ruby-identifier">value</span>
+250:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -559,17 +583,17 @@
             onclick="toggleCode('M000009-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000009-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 46</span>
-46:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">data</span>)
-47:     <span class="ruby-identifier">lines</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">split</span>(<span class="ruby-value str">&quot;\n&quot;</span>)
-48:     
-49:     <span class="ruby-identifier">reset_prefix</span>
-50:     <span class="ruby-identifier">lines</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">line</span><span class="ruby-operator">|</span> 
-51:       <span class="ruby-identifier">handle_element</span>(<span class="ruby-identifier">line</span>)
-52:     <span class="ruby-keyword kw">end</span>
-53:     
-54:     <span class="ruby-keyword kw">return</span> <span class="ruby-ivar">@calendar</span>
-55:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 154</span>
+154:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">data</span>)
+155:     <span class="ruby-identifier">lines</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">split</span>(<span class="ruby-value str">&quot;\n&quot;</span>)
+156:     
+157:     <span class="ruby-identifier">reset_prefix</span>
+158:     <span class="ruby-identifier">lines</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">line</span><span class="ruby-operator">|</span> 
+159:       <span class="ruby-identifier">handle_element</span>(<span class="ruby-identifier">line</span>)
+160:     <span class="ruby-keyword kw">end</span>
+161:     
+162:     <span class="ruby-keyword kw">return</span> <span class="ruby-ivar">@calendar</span>
+163:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -589,10 +613,10 @@
             onclick="toggleCode('M000011-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000011-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 67</span>
-67:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">reset_prefix</span>
-68:     <span class="ruby-ivar">@method_prefix</span> = <span class="ruby-value str">&quot;handle_&quot;</span>
-69:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File lib/googlecalendar.rb, line 175</span>
+175:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">reset_prefix</span>
+176:     <span class="ruby-ivar">@method_prefix</span> = <span class="ruby-value str">&quot;handle_&quot;</span>
+177:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>

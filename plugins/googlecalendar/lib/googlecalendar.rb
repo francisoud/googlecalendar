@@ -65,14 +65,20 @@ module Net
   end
 end
 
-# Email   The user's email address.
-# Passwd  The user's password.
-# source  Identifies your client application. Should take the form companyName-applicationName-versionID; below, we'll use the name exampleCo-exampleApp-1.
-# service   The string cl, which is the service name for Google Calendar.
-# Google calendar API: http://code.google.com/apis/calendar/developers_guide_protocol.html
+#A ruby class to wrap calls to the Google Data API
+#More informations
+#_Google calendar API: http://code.google.com/apis/calendar/developers_guide_protocol.html_
 class GData
-  # Provide a source!
+
+  #Log into google data, this method needs to be call once before using other methods of the class
+  #* Email   The user's email address.
+  #* Passwd  The user's password.
+  #* source  Identifies your client application. Should take the form companyName-applicationName-versionID
+  #*Warning* Replace the default value with something like: 
+  #+companyName-applicationName-versionID+ 
   def login(email, pwd, source='googlecalendar.rubyforge.org-googlecalendar-default')
+    # service   The string cl, which is the service name for Google Calendar.
+
     response = Net::HTTPS.post_form(URI.parse('https://www.google.com/accounts/ClientLogin'),
         { 'Email' => email, 
           'Passwd' => pwd, 
@@ -87,14 +93,21 @@ class GData
      return @token
   end
 
-  # values: title, content, author, email, where, startTime, endTime
-  def new_event(values={})
-    event = template(values)
+  #'event' param is a hash containing 
+  #* :title
+  #* :content
+  #* :author
+  #* :email
+  #* :where
+  #* :startTime '2007-06-06T15:00:00.000Z'
+  #* :endTime '2007-06-06T17:00:00.000Z'
+  def new_event(event={})
+    new_event = template(event)
     http = Net::HTTP.new('www.google.com', 80)
-    response, data = http.post('/calendar/feeds/default/private/full', event, @headers)
+    response, data = http.post('/calendar/feeds/default/private/full', new_event, @headers)
     case response
     when Net::HTTPSuccess, Net::HTTPRedirection
-      redirect_response, redirect_data = http.post(response['location'], event, @headers)
+      redirect_response, redirect_data = http.post(response['location'], new_event, @headers)
       case response
       when Net::HTTPSuccess, Net::HTTPRedirection
         return redirect_response
@@ -106,18 +119,19 @@ class GData
     end
   end
   
-  def template(values={})
+  # The atom event template to submit a new event
+  def template(event={})
   content = <<EOF
 <?xml version="1.0"?>
 <entry xmlns='http://www.w3.org/2005/Atom'
     xmlns:gd='http://schemas.google.com/g/2005'>
   <category scheme='http://schemas.google.com/g/2005#kind'
     term='http://schemas.google.com/g/2005#event'></category>
-  <title type='text'>#{values[:title]}</title>
-  <content type='text'>#{values[:content]}</content>
+  <title type='text'>#{event[:title]}</title>
+  <content type='text'>#{event[:content]}</content>
   <author>
-    <name>#{values[:author]}</name>
-    <email>#{values[:email]}</email>
+    <name>#{event[:author]}</name>
+    <email>#{event[:email]}</email>
   </author>
   <gd:transparency
     value='http://schemas.google.com/g/2005#event.opaque'>
@@ -125,9 +139,9 @@ class GData
   <gd:eventStatus
     value='http://schemas.google.com/g/2005#event.confirmed'>
   </gd:eventStatus>
-  <gd:where valueString='#{values[:where]}'></gd:where>
-  <gd:when startTime='#{values[:startTime]}'
-    endTime='#{values[:endTime]}'></gd:when>
+  <gd:where valueString='#{event[:where]}'></gd:where>
+  <gd:when startTime='#{event[:startTime]}'
+    endTime='#{event[:endTime]}'></gd:when>
 </entry>
 EOF
   end
