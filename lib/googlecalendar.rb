@@ -1,4 +1,5 @@
 require 'net/http'
+require 'net/https'
 require 'uri'
 
 class Calendar
@@ -49,6 +50,86 @@ class Event
       hash[pair[0]] = pair[1]
     end 
     return hash
+  end
+end
+
+#
+# Make it east to use some of the convenience methods using https
+#
+module Net
+  class HTTPS < HTTP
+    def initialize(address, port = nil)
+      super(address, port)
+      self.use_ssl = true
+    end
+  end
+end
+
+# Email   The user's email address.
+# Passwd  The user's password.
+# source  Identifies your client application. Should take the form companyName-applicationName-versionID; below, we'll use the name exampleCo-exampleApp-1.
+# service   The string cl, which is the service name for Google Calendar.
+# Google calendar API: http://code.google.com/apis/calendar/developers_guide_protocol.html
+class GData
+  # Provide a source!
+  def login(email, pwd, source='googlecalendar.rubyforge.org-googlecalendar-default')
+    response = Net::HTTPS.post_form(URI.parse('https://www.google.com/accounts/ClientLogin'),
+        { 'Email' => email, 
+          'Passwd' => pwd, 
+          'source' => source, 
+          'service' => 'cl'})
+    response.error! unless response.kind_of? Net::HTTPSuccess
+    @token = response.body.split(/=/).last
+    @headers = {
+       'Authorization' => "GoogleLogin auth=#{@token}",
+       'Content-Type'  => 'application/atom+xml'
+     }
+     return @token
+  end
+
+  # values: title, content, author, email, where, startTime, endTime
+  def new_event(values={})
+    event = template(values)
+    http = Net::HTTP.new('www.google.com', 80)
+    response, data = http.post('/calendar/feeds/default/private/full', event, @headers)
+    case response
+    when Net::HTTPSuccess, Net::HTTPRedirection
+      redirect_response, redirect_data = http.post(response['location'], event, @headers)
+      case response
+      when Net::HTTPSuccess, Net::HTTPRedirection
+        return redirect_response
+      else
+        response.error!
+      end
+    else
+      response.error!
+    end
+  end
+  
+  def template(values={})
+  content = <<EOF
+<?xml version="1.0"?>
+<entry xmlns='http://www.w3.org/2005/Atom'
+    xmlns:gd='http://schemas.google.com/g/2005'>
+  <category scheme='http://schemas.google.com/g/2005#kind'
+    term='http://schemas.google.com/g/2005#event'></category>
+  <title type='text'>#{values[:title]}</title>
+  <content type='text'>#{values[:content]}</content>
+  <author>
+    <name>#{values[:author]}</name>
+    <email>#{values[:email]}</email>
+  </author>
+  <gd:transparency
+    value='http://schemas.google.com/g/2005#event.opaque'>
+  </gd:transparency>
+  <gd:eventStatus
+    value='http://schemas.google.com/g/2005#event.confirmed'>
+  </gd:eventStatus>
+  <gd:where valueString='#{values[:where]}'></gd:where>
+  <gd:when startTime='#{values[:startTime]}'
+    endTime='#{values[:endTime]}'></gd:when>
+</entry>
+EOF
   end
 end
 
@@ -163,8 +244,8 @@ def parse(data)
     parser.parse(data)
 end
 
-def scan(ical_url)
-  Net::HTTP.start('www.google.com', 80) do |http|
+def scan(ical_url, base_url='www.google.com')
+  Net::HTTP.start(base_url, 80) do |http|
     response, data = http.get(ical_url)
     case response
     when Net::HTTPSuccess, Net::HTTPRedirection
