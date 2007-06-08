@@ -4,7 +4,6 @@ require 'rake/testtask'
 require 'rake/rdoctask'
 require 'rake/packagetask'
 require 'rake/gempackagetask'
-require 'rake/contrib/rubyforgepublisher'
 
 project_name = 'googlecalendar'
 project_title = "Google Calendar api for Ruby"
@@ -53,15 +52,6 @@ task :pdoc => [:rdoc] do
   p.upload
 end
 
-# --config ./config.yml
-desc "Publish the release files to RubyForge."
-task :release => [ :package ] do
-  p = Rake::RubyForgePublisher.new(project_name, 'cogito')
-#  `call rubyforge login`
-#
-#  for ext in %w( tgz zip)
-#    release_command = "rubyforge add_release " + project_name + " " + project_name + " 'REL " + current_version + "' pkg/" + gem_name + ".#{ext}"
-#    puts release_command
-#    `#{release_command}`
-#  end
-end
+# Creating the tar.gz-----------------------------------------------
+# `C:\path\cygwin\bin\tar cf googlecalendar-0.0.4.tar googlecalendar-0.0.4`
+# `C:\path\cygwin\bin\gzip googlecalendar-0.0.4.tar`
