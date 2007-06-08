@@ -1,5 +1,9 @@
 = Versions
 
+=== 0.0.4 (June 8th, 2007)
+* Can add simple events now
+** Added a GData class and an example of how to use it
+
 === 0.0.3 (May 5th, 2007)
 * Handle recurring events
 ** Added a rrule property and a rrule_as_hash method

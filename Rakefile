@@ -8,7 +8,7 @@ require 'rake/contrib/rubyforgepublisher'
 
 project_name = 'googlecalendar'
 project_title = "Google Calendar api for Ruby"
-current_version = "0.0.3"
+current_version = "0.0.4"
 gem_name = project_name + "-" + current_version
 
 desc "Default Task"
@@ -19,7 +19,7 @@ spec = Gem::Specification.new do |s|
   s.name = project_name
   s.version = current_version
   s.summary = project_title
-  s.description = %{The Google Calendar project provides: Export features (text file, simple html page or excel files), Ruby api's to connect to google calendars, A plugin for Ruby On Rails.}
+  s.description = %{The Google Calendar project provides: Export features (text file, simple html page), Ruby api's to connect to google calendars, A plugin for Ruby On Rails.}
   s.files = ["README", "CHANGELOG"] + Dir['lib/**/*.rb']
   s.require_path = 'lib'
   s.autorequire = project_name
@@ -32,17 +32,8 @@ end
   
 Rake::GemPackageTask.new(spec) do |p|
   p.gem_spec = spec
-  puts "----------------------------------------------------------------------------"
-  puts "WARNING: You need to install cygwin (Archive package) for this task to work!"
-  puts "----------------------------------------------------------------------------"
   p.need_tar = true
   p.need_zip = true
-end
-
-# Update Rails Plugin ---------------------------------------------
-desc "Update the Rails Plugin"
-task :plugin => [:package] do 
-  File.copy "lib/googlecalendar.rb", "plugins/" + project_name + "/lib/googlecalendar.rb"
 end
 
 # Generate the RDoc --------------------------------
@@ -58,17 +49,19 @@ Rake::RDocTask.new { |rdoc|
 # Publishing ------------------------------------------------------
 desc "Publish the API documentation"
 task :pdoc => [:rdoc] do 
-  Rake::SshDirPublisher.new("cogito@rubyforge.org", "/var/www/gforge-projects/googlecalendar/doc", "doc").upload
+  p = Rake::SshDirPublisher.new("cogito@rubyforge.org", "/var/www/gforge-projects/googlecalendar/doc", "doc")
+  p.upload
 end
 
 # --config ./config.yml
 desc "Publish the release files to RubyForge."
 task :release => [ :package ] do
-  `call rubyforge login`
-
-  for ext in %w( tgz zip)
-    release_command = "call rubyforge add_release " + project_name + " " + project_name + " 'REL " + current_version + "' pkg/" + gem_name + ".#{ext}"
-    puts release_command
-    `#{release_command}`
-  end
+  p = Rake::RubyForgePublisher.new(project_name, 'cogito')
+#  `call rubyforge login`
+#
+#  for ext in %w( tgz zip)
+#    release_command = "rubyforge add_release " + project_name + " " + project_name + " 'REL " + current_version + "' pkg/" + gem_name + ".#{ext}"
+#    puts release_command
+#    `#{release_command}`
+#  end
 end
