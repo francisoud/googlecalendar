@@ -55,3 +55,20 @@ end
 # Creating the tar.gz-----------------------------------------------
 # `C:\path\cygwin\bin\tar cf googlecalendar-0.0.4.tar googlecalendar-0.0.4`
 # `C:\path\cygwin\bin\gzip googlecalendar-0.0.4.tar`
+
+# Compress Prophet with TUGZip ---------------------------------------------
+desc "Compress GoogleCalendar with TUGZip"
+task :TUGZip do
+  Dir.mkdir "pkg" unless File.exist?("pkg")
+  zip = "pkg/#{project_name}-#{current_version}.zip"
+  FileUtils.remove zip if File.exist?(zip)
+  File.open('pkg/file_list.txt', 'w') do |f|
+    Dir["lib/**/*", "examples/**/*", "html/**/*", "test/**/*"].each do |path|
+      # replace '/' with '\'
+      escaped_path = path.gsub(/\//, '\\\\')
+      f <<  "#{escaped_path},"
+    end
+  end
+  `/Program Files/TUGZip/tzscript.exe googlecalendar.tzs`
+  FileUtils.mv "pkg/googlecalendar.zip", zip
+end
