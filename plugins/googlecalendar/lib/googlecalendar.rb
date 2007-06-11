@@ -83,6 +83,7 @@ class GData
         { 'Email' => email, 
           'Passwd' => pwd, 
           'source' => source, 
+          'accountType' => 'HOSTED_OR_GOOGLE', 
           'service' => 'cl'})
     response.error! unless response.kind_of? Net::HTTPSuccess
     @token = response.body.split(/=/).last
