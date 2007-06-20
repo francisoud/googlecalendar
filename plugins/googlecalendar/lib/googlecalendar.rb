@@ -1,6 +1,7 @@
 require 'net/http'
 require 'net/https'
 require 'uri'
+require "rexml/document"
 
 class Calendar
   attr_accessor :product_id, :version, :scale, :method, :events
@@ -21,6 +22,15 @@ class Calendar
       data << event.to_s
     end
     return data
+  end
+end
+
+class GCalendar
+  attr_reader :title, :url
+
+  def initialize(title, url)
+    @title = title
+    @url = url
   end
 end
 
@@ -69,7 +79,13 @@ end
 #More informations
 #_Google calendar API: http://code.google.com/apis/calendar/developers_guide_protocol.html_
 class GData
-
+  attr_accessor :google_url
+  
+  def initialize(google='www.google.com')
+    @calendars = []
+    @google_url = google
+  end
+  
   #Log into google data, this method needs to be call once before using other methods of the class
   #* Email   The user's email address.
   #* Passwd  The user's password.
@@ -78,8 +94,8 @@ class GData
   #+companyName-applicationName-versionID+ 
   def login(email, pwd, source='googlecalendar.rubyforge.org-googlecalendar-default')
     # service   The string cl, which is the service name for Google Calendar.
-
-    response = Net::HTTPS.post_form(URI.parse('https://www.google.com/accounts/ClientLogin'),
+    @user_id = email
+    response = Net::HTTPS.post_form(URI.parse("https://#{@google_url}/accounts/ClientLogin"),
         { 'Email' => email, 
           'Passwd' => pwd, 
           'source' => source, 
@@ -102,10 +118,20 @@ class GData
   #* :where
   #* :startTime '2007-06-06T15:00:00.000Z'
   #* :endTime '2007-06-06T17:00:00.000Z'
-  def new_event(event={})
+  def new_event(event={},calendar = nil)    
     new_event = template(event)
-    http = Net::HTTP.new('www.google.com', 80)
-    response, data = http.post('/calendar/feeds/default/private/full', new_event, @headers)
+  
+    #Get calendar url    
+    calendar_url  = if calendar
+      get_calendars
+      find_calendar(calendar).url
+    else
+      # We will use user'default calendar in this case
+      '/calendar/feeds/default/private/full'
+    end
+    
+    http = Net::HTTP.new(@google_url, 80)
+    response, data = http.post(calendar_url, new_event, @headers)
     case response
     when Net::HTTPSuccess, Net::HTTPRedirection
       redirect_response, redirect_data = http.post(response['location'], new_event, @headers)
@@ -119,7 +145,35 @@ class GData
       response.error!
     end
   end
+
+  # Retreive user's calendar urls.
+  def get_calendars
+    http = Net::HTTP.new(@google_url, 80)
+    response, data = http.get("http://#{@google_url}/calendar/feeds/" + @user_id, @headers)
+    case response
+    when Net::HTTPSuccess, Net::HTTPRedirection
+      redirect_response, redirect_data = http.get(response['location'], @headers)
+      case response
+      when Net::HTTPSuccess, Net::HTTPRedirection
+        doc = REXML::Document.new redirect_data
+	      doc.elements.each('//entry')do |e|
+	        title = e.elements['title'].text
+	        url = e.elements['link'].attributes['href']
+	        @calendars << GCalendar.new(title, url.sub!("http://#{@google_url}",''))
+	      end
+        return redirect_response
+      else
+        response.error!
+      end
+    else
+      response.error!
+    end
+  end
   
+  def find_calendar(x)
+    @calendars.find {|c| c.title.match x}
+  end
+
   # The atom event template to submit a new event
   def template(event={})
   content = <<EOF
