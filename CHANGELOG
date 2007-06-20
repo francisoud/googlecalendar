@@ -1,8 +1,9 @@
 = Versions
 
 === 0.0.5 (June 20th, 2007)
-Adding code to post an event to other calendar than the default one
-Get the list of calendar associated with the user.
+* You can now set a different google url in GData class (default value is www.google.com)
+* Adding code to post an event to other calendar than the default one
+* Get the list of calendar associated with the user.
 Thanks to Christos Trochalakis for his contribution :)
 
 === 0.0.4 (June 8th, 2007)
