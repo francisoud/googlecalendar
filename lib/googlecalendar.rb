@@ -35,7 +35,7 @@ class GCalendar
 end
 
 class Event
-  attr_accessor :start_date, :end_date, :time_stamp, :class_name, :created, :last_modified, :status, :summary, :rrule
+  attr_accessor :start_date, :end_date, :time_stamp, :class_name, :created, :last_modified, :status, :summary, :description, :location, :rrule
   
   def to_s
     data = "---------- event ----------\n"
@@ -48,6 +48,8 @@ class Event
     data << 'status: ' + @status.to_s + "\n"
     data << 'rrule: ' + @rrule.to_s + "\n"
     data << 'summary: ' + @summary.to_s + "\n"
+    data << 'desription: ' + @desription.to_s + "\n"
+    data << 'location: ' + @ location.to_s + "\n"
     return data
   end
 
@@ -305,6 +307,14 @@ class ICALParser
   
   def handle_vevent_rrule(value)
     @calendar.events.last.rrule = value
+  end
+
+  def handle_vevent_description(value)
+    @calendar.events.last.description = value
+  end
+
+  def handle_vevent_location(value)
+    @calendar.events.last.location = value
   end
 end
 

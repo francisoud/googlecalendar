@@ -4,10 +4,11 @@ require 'rake/testtask'
 require 'rake/rdoctask'
 require 'rake/packagetask'
 require 'rake/gempackagetask'
+require 'rake/contrib/sshpublisher'
 
 project_name = 'googlecalendar'
 project_title = "Google Calendar api for Ruby"
-current_version = "0.0.4"
+current_version = "0.0.5"
 gem_name = project_name + "-" + current_version
 
 desc "Default Task"
