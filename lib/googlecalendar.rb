@@ -49,7 +49,7 @@ class Event
     data << 'rrule: ' + @rrule.to_s + "\n"
     data << 'summary: ' + @summary.to_s + "\n"
     data << 'desription: ' + @desription.to_s + "\n"
-    data << 'location: ' + @ location.to_s + "\n"
+    data << 'location: ' + @location.to_s + "\n"
     return data
   end
 
@@ -335,3 +335,14 @@ def scan(ical_url, base_url='www.google.com')
   end
 end
 
+def scan_proxy(proxy_addr, proxy_port, ical_url, base_url='www.google.com')
+  Net::HTTP::Proxy(proxy_addr, proxy_port).start(base_url, 80) do |http|
+    response, data = http.get(ical_url)
+    case response
+    when Net::HTTPSuccess, Net::HTTPRedirection
+      return data
+    else
+      response.error!
+    end
+  end
+end
