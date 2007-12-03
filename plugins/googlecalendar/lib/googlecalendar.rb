@@ -77,9 +77,11 @@ module Net
   end
 end
 
-#A ruby class to wrap calls to the Google Data API
-#More informations
-#_Google calendar API: http://code.google.com/apis/calendar/developers_guide_protocol.html_
+# A ruby class to wrap calls to the Google Data API
+# 
+# More informations
+# 
+# Google calendar API: http://code.google.com/apis/calendar/developers_guide_protocol.html
 class GData
   attr_accessor :google_url
   
@@ -112,6 +114,34 @@ class GData
      return @token
   end
 
+  # Reset reminders
+  def reset_reminders(event)
+    event[:reminders] = ""
+  end
+  
+  # Add a reminder to the event hash 
+  #* reminderMinutes
+  #* reminderMethod [email, alert, sms, none]
+  def add_reminder(event, reminderMinutes, reminderMethod)
+    event[:reminders] = event[:reminders].to_s + 
+      "<gd:reminder minutes='#{reminderMinutes}' method='#{reminderMethod}' />\n"
+  end
+  
+  # Create a quick add event
+  # 
+  # <tt>text = 'Tennis with John April 11 3pm-3:30pm'</tt>
+  # 
+  # http://code.google.com/apis/calendar/developers_guide_protocol.html#CreatingQuickAdd
+  def quick_add(text)
+  content = <<EOF
+<entry xmlns='http://www.w3.org/2005/Atom' xmlns:gCal='http://schemas.google.com/gCal/2005'>
+  <content type="html">#{text}</content>
+  <gCal:quickadd value="true"/>
+</entry>
+EOF
+    post_event(content)
+  end
+
   #'event' param is a hash containing 
   #* :title
   #* :content
@@ -120,9 +150,14 @@ class GData
   #* :where
   #* :startTime '2007-06-06T15:00:00.000Z'
   #* :endTime '2007-06-06T17:00:00.000Z'
-  def new_event(event={},calendar = nil)    
+  # 
+  # Use add_reminder(event, reminderMinutes, reminderMethod) method to add reminders
+  def new_event(event={},calendar = nil)
     new_event = template(event)
+    post_event(new_event, calendar)
+  end
   
+  def post_event(xml, calendar = nil)
     #Get calendar url    
     calendar_url  = if calendar
       get_calendars
@@ -133,10 +168,10 @@ class GData
     end
     
     http = Net::HTTP.new(@google_url, 80)
-    response, data = http.post(calendar_url, new_event, @headers)
+    response, data = http.post(calendar_url, xml, @headers)
     case response
     when Net::HTTPSuccess, Net::HTTPRedirection
-      redirect_response, redirect_data = http.post(response['location'], new_event, @headers)
+      redirect_response, redirect_data = http.post(response['location'], xml, @headers)
       case response
       when Net::HTTPSuccess, Net::HTTPRedirection
         return redirect_response
@@ -197,12 +232,13 @@ class GData
     value='http://schemas.google.com/g/2005#event.confirmed'>
   </gd:eventStatus>
   <gd:where valueString='#{event[:where]}'></gd:where>
-  <gd:when startTime='#{event[:startTime]}'
-    endTime='#{event[:endTime]}'></gd:when>
+  <gd:when startTime='#{event[:startTime]}' endTime='#{event[:endTime]}'>
+    #{event[:reminders]}
+  </gd:when>
 </entry>
 EOF
   end
-end
+end # GData class
 
 class ICALParser
   attr_reader :calendar
