@@ -112,6 +112,19 @@ class GData
      return @token
   end
 
+  # reset reminders
+  def reset_reminders(event)
+    event[:reminders] = ""
+  end
+  
+  # add a reminder to the event hash
+  # reminderMinutes
+  # reminderMethod [email, alert, sms, none]
+  def add_reminder(event, reminderMinutes, reminderMethod)
+    event[:reminders] = event[:reminders].to_s + 
+      "<gd:reminder minutes='#{reminderMinutes}' method='#{reminderMethod}' />\n"
+  end
+  
   #'event' param is a hash containing 
   #* :title
   #* :content
@@ -120,9 +133,10 @@ class GData
   #* :where
   #* :startTime '2007-06-06T15:00:00.000Z'
   #* :endTime '2007-06-06T17:00:00.000Z'
-  def new_event(event={},calendar = nil)    
+  # Use add_reminder(event, reminderMinutes, reminderMethod) method to add reminders
+  def new_event(event={},calendar = nil)
     new_event = template(event)
-  
+    
     #Get calendar url    
     calendar_url  = if calendar
       get_calendars
@@ -197,8 +211,9 @@ class GData
     value='http://schemas.google.com/g/2005#event.confirmed'>
   </gd:eventStatus>
   <gd:where valueString='#{event[:where]}'></gd:where>
-  <gd:when startTime='#{event[:startTime]}'
-    endTime='#{event[:endTime]}'></gd:when>
+  <gd:when startTime='#{event[:startTime]}' endTime='#{event[:endTime]}'>
+    #{event[:reminders]}
+  </gd:when>
 </entry>
 EOF
   end
