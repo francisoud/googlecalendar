@@ -77,9 +77,11 @@ module Net
   end
 end
 
-#A ruby class to wrap calls to the Google Data API
-#More informations
-#_Google calendar API: http://code.google.com/apis/calendar/developers_guide_protocol.html_
+# A ruby class to wrap calls to the Google Data API
+# 
+# More informations
+# 
+# Google calendar API: http://code.google.com/apis/calendar/developers_guide_protocol.html
 class GData
   attr_accessor :google_url
   
@@ -112,21 +114,23 @@ class GData
      return @token
   end
 
-  # reset reminders
+  # Reset reminders
   def reset_reminders(event)
     event[:reminders] = ""
   end
   
-  # add a reminder to the event hash
-  # reminderMinutes
-  # reminderMethod [email, alert, sms, none]
+  # Add a reminder to the event hash 
+  #* reminderMinutes
+  #* reminderMethod [email, alert, sms, none]
   def add_reminder(event, reminderMinutes, reminderMethod)
     event[:reminders] = event[:reminders].to_s + 
       "<gd:reminder minutes='#{reminderMinutes}' method='#{reminderMethod}' />\n"
   end
   
-  # create a quick add event
-  # text = 'Tennis with John April 11 3pm-3:30pm'
+  # Create a quick add event
+  # 
+  # <tt>text = 'Tennis with John April 11 3pm-3:30pm'</tt>
+  # 
   # http://code.google.com/apis/calendar/developers_guide_protocol.html#CreatingQuickAdd
   def quick_add(text)
   content = <<EOF
@@ -146,6 +150,7 @@ EOF
   #* :where
   #* :startTime '2007-06-06T15:00:00.000Z'
   #* :endTime '2007-06-06T17:00:00.000Z'
+  # 
   # Use add_reminder(event, reminderMinutes, reminderMethod) method to add reminders
   def new_event(event={},calendar = nil)
     new_event = template(event)
