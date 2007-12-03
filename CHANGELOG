@@ -1,8 +1,9 @@
 = Versions
 === 0.0.6 (Dec 03rd, 2007)
 * Added add_reminder and reset_reminders to GData (see examples/ruby_standalone/gdata_new_event_reminder.rb)
-Thanks to Nicolas Fouché
-* 
+Contribution: Nicolas Fouché
+* Added "Quick Add" (see examples/ruby_standalone/gdata_quick_add.rb)
+Contribution: Levi Kennedy
 
 === 0.0.5 (Sept 24th, 2007)
 * You can now set a different google url in GData class (default value is www.google.com)

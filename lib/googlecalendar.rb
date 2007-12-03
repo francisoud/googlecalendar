@@ -125,6 +125,19 @@ class GData
       "<gd:reminder minutes='#{reminderMinutes}' method='#{reminderMethod}' />\n"
   end
   
+  # create a quick add event
+  # text = 'Tennis with John April 11 3pm-3:30pm'
+  # http://code.google.com/apis/calendar/developers_guide_protocol.html#CreatingQuickAdd
+  def quick_add(text)
+  content = <<EOF
+<entry xmlns='http://www.w3.org/2005/Atom' xmlns:gCal='http://schemas.google.com/gCal/2005'>
+  <content type="html">#{text}</content>
+  <gCal:quickadd value="true"/>
+</entry>
+EOF
+    post_event(content)
+  end
+
   #'event' param is a hash containing 
   #* :title
   #* :content
@@ -136,7 +149,10 @@ class GData
   # Use add_reminder(event, reminderMinutes, reminderMethod) method to add reminders
   def new_event(event={},calendar = nil)
     new_event = template(event)
-    
+    post_event(new_event, calendar)
+  end
+  
+  def post_event(xml, calendar = nil)
     #Get calendar url    
     calendar_url  = if calendar
       get_calendars
@@ -147,10 +163,10 @@ class GData
     end
     
     http = Net::HTTP.new(@google_url, 80)
-    response, data = http.post(calendar_url, new_event, @headers)
+    response, data = http.post(calendar_url, xml, @headers)
     case response
     when Net::HTTPSuccess, Net::HTTPRedirection
-      redirect_response, redirect_data = http.post(response['location'], new_event, @headers)
+      redirect_response, redirect_data = http.post(response['location'], xml, @headers)
       case response
       when Net::HTTPSuccess, Net::HTTPRedirection
         return redirect_response
@@ -217,7 +233,7 @@ class GData
 </entry>
 EOF
   end
-end
+end # GData class
 
 class ICALParser
   attr_reader :calendar
