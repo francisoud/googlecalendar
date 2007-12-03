@@ -4,6 +4,7 @@
 Contribution: Nicolas Fouché
 * Added "Quick Add" (see examples/ruby_standalone/gdata_quick_add.rb)
 Contribution: Levi Kennedy
+* Fixed white space in '@ location.to_s'
 
 === 0.0.5 (Sept 24th, 2007)
 * You can now set a different google url in GData class (default value is www.google.com)

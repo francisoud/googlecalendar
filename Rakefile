@@ -8,7 +8,7 @@ require 'rake/contrib/sshpublisher'
 
 project_name = 'googlecalendar'
 project_title = "Google Calendar api for Ruby"
-current_version = "0.0.5"
+current_version = "0.0.6"
 gem_name = project_name + "-" + current_version
 
 desc "Default Task"
