@@ -1,0 +1,20 @@
+function main()
+{
+     var Comp = new Compress();
+
+     Comp.Archive = "pkg/googlecalendar.zip";
+     Comp.Type = "ZIP";
+     Comp.Compression = 3;
+     Comp.WorkingDir = ".";
+     Comp.FileList = "pkg/file_list.txt";
+     Comp.Password = "";
+     Comp.DateExtension = 0;
+     Comp.TimeExtension = 0;
+     Comp.Overwrite = 1;
+     Comp.Recurse = 0;
+     Comp.StoreFolderNames = 1;
+     Comp.IncludeHiddenFiles = 1;
+
+     Comp.DoCompress();
+} 
+
