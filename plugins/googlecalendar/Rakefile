@@ -1,0 +1,32 @@
+require 'rubygems'
+require 'rake'
+require 'rake/testtask'
+require 'rake/rdoctask'
+require 'rake/packagetask'
+require 'rake/gempackagetask'
+require 'rake/contrib/rubyforgepublisher'
+require 'rake/contrib/sshpublisher'
+
+project_name = 'googlecalendar'
+project_title = "Google Calendar api for Ruby"
+current_version = "0.0.2"
+gem_name = project_name + "-" + current_version
+
+desc "Default Task"
+task :default => [ :rdoc ]
+
+
+# Generate the RDoc --------------------------------
+Rake::RDocTask.new { |rdoc|
+  rdoc.rdoc_dir = 'doc'
+  rdoc.title    = project_title
+  rdoc.options << '--line-numbers' << '--inline-source' << '-A cattr_accessor=object'
+  rdoc.rdoc_files.include('README')
+  rdoc.rdoc_files.include('../../CHANGELOG')
+  rdoc.rdoc_files.include('lib/**/*.rb')
+}
+
+desc "Publish the API documentation"
+task :pdoc => [:rdoc] do 
+  Rake::SshDirPublisher.new("cogito@rubyforge.org", "/var/www/gforge-projects/googlecalendar/plugins/doc", "doc").upload
+end
