@@ -1,0 +1,40 @@
+= Versions
+=== 0.0.6 (Dec 03rd, 2007)
+* Added add_reminder and reset_reminders to GData (see examples/ruby_standalone/gdata_new_event_reminder.rb)
+Contribution: Nicolas Fouché
+* Added "Quick Add" (see examples/ruby_standalone/gdata_quick_add.rb)
+Contribution: Levi Kennedy
+* Fixed white space in '@ location.to_s'
+
+=== 0.0.5 (Sept 24th, 2007)
+* You can now set a different google url in GData class (default value is www.google.com)
+* Adding code to post an event to other calendar than the default one
+* Get the list of calendar associated with the user.
+Thanks to Christos Trochalakis for his contribution :)
+* Handle hosted email account (different domain name emails)
+Thanks to Sam Morrison for his contribution :)
+* Add description and location informations to available fields
+Thanks to Kalle Saas for his contribution :)
+
+=== 0.0.4 (June 8th, 2007)
+* Can add simple events now
+* Added a GData class and an example of how to use it
+
+=== 0.0.3 (May 5th, 2007)
+* Handle recurring events
+* Added a rrule property and a rrule_as_hash method
+
+=== 0.0.2 (June 16th, 2006)
+* Refactor googlecalendar to a single rb file
+* Add Rakefile
+* Add Gem, Zip, Tar packaging
+* Add RDoc
+
+=== 0.0.1 (Mai 11th, 2006)
+* Started project
+
+= About Versioning
+* Version number: major.minor.build
+* Compatible release (increment the build number)
+* Backward compatible, new feature release (increment minor number)
+* Backward incompatible release (increment the major number)

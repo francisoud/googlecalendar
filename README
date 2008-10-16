@@ -1,0 +1,14 @@
+== Google Calendar
+The Google Calendar project provides 
+* Export features (text file, simple html page or excel files), 
+* Ruby api's to connect to google calendars 
+* A plugin for Ruby On Rails.
+
+== License
+GoogleCalendar for Ruby is released under the Apache license.
+
+== Support
+http://rubyforge.org/projects/googlecalendar/
+
+== Author
+Benjamin Francisoud  - http://rubyscube.blogspot.com
