@@ -1,0 +1,13 @@
+h1. Googlecalendar - Contact
+
+Don't be shy! Comments are welcome :)
+
+h2. Forum
+
+You can use the Forum: "http://groups.google.com/group/googlecalendar":http://groups.google.com/group/googlecalendar 
+
+TODO - create Google Group - googlecalendar
+
+h2. Email
+
+Send an email to "Benjamin Francisoud":mailto:ruby.francisoud@gmail.com  

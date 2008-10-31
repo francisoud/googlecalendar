@@ -1,0 +1,7 @@
+h1. Googlecalendar - Documentation
+
+h2. RDoc
+
+* "Ruby standalone api reference (RDoc)":http://googlecalendar.rubyforge.org/doc
+* "Rails plugin api reference (RDoc)":http://googlecalendar.rubyforge.org/plugins/doc
+

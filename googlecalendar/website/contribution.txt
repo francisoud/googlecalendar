@@ -1,0 +1,50 @@
+h1. Googlecalendar - Contribution
+
+h2. How to submit patches
+
+Read the "8 steps for fixing other people's code":http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/ and for section "8b: Submit patch to Google Groups":http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/#8b-google-groups, use the Google Group above.
+
+TODO - pick SVN or Git instructions
+
+The trunk repository is <code>svn://rubyforge.org/var/svn/googlecalendar/trunk</code> for anonymous access.
+
+OOOORRRR
+
+You can fetch the source from either:
+
+<% if rubyforge_project_id %>
+
+* rubyforge: "http://rubyforge.org/scm/?group_id=<%= rubyforge_project_id %>":http://rubyforge.org/scm/?group_id=<%= rubyforge_project_id %>
+
+<pre>git clone git://rubyforge.org/googlecalendar.git</pre>
+
+<% else %>
+
+* rubyforge: MISSING IN ACTION
+
+TODO - You can not created a RubyForge project, OR have not run <code>rubyforge config</code>
+yet to refresh your local rubyforge data with this projects' id information.
+
+When you do this, this message will magically disappear!
+
+Or you can hack website/index.txt and make it all go away!!
+
+<% end %>
+
+* github: "http://github.com/GITHUB_USERNAME/googlecalendar/tree/master":http://github.com/GITHUB_USERNAME/googlecalendar/tree/master
+
+<pre>git clone git://github.com/GITHUB_USERNAME/googlecalendar.git</pre>
+
+
+TODO - add "github_username: username" to ~/.rubyforge/user-config.yml and newgem will reuse it for future projects.
+
+
+* gitorious: "git://gitorious.org/googlecalendar/mainline.git":git://gitorious.org/googlecalendar/mainline.git
+
+<pre>git clone git://gitorious.org/googlecalendar/mainline.git</pre>
+
+h3. Build and test instructions
+
+<pre>cd googlecalendar
+rake test
+rake install_gem</pre>

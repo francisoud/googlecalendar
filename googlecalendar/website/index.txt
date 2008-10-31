@@ -1,0 +1,60 @@
+h1. Googlecalendar - Ruby api and Rails plugin for Google Calendar
+
+h2. Features
+
+The Google Calendar project provides 
+* Ruby api's to connect to google calendars (standalone, without rails)
+* A plugin for Ruby On Rails
+* Export features (text file or simple html page) 
+
+h2. Rails plugin
+
+If you want to use googlecalendar for ruby in a Ruby on Rails application see the dedicated "Rails plugin":plugin.html page
+
+h2. Install
+
+<pre syntax="ruby">sudo gem install googlecalendar</pre>
+
+h2. Usage
+
+h3. Adding an Event
+
+<pre syntax="ruby">
+require 'googlecalendar'
+g = GData.new
+g.login('REPLACE_WITH_YOUR_MAIL@gmail.com', 'REPLACE_WITH_YOUR_PASSWORD')
+event = { :title     => 'title',
+          :content   => 'content',
+          :author    => 'pub.cog',
+          :email     => 'pub.cog@gmail.com',
+          :where     => 'Toulouse,France',
+          :startTime => '2007-06-06T15:00:00.000Z',
+          :endTime   => '2007-06-06T17:00:00.000Z'}
+g.new_event(event)
+Quick Add
+</pre>
+
+h3. Quick Add
+
+<pre syntax="ruby">
+require 'googlecalendar'
+g = GData.new
+g.login('REPLACE_WITH_YOUR_MAIL@gmail.com', 'REPLACE_WITH_YOUR_PASSWORD')
+g.quick_add('Tennis with John December 03 3pm-4:30pm')
+</pre>
+
+h3. Other examples
+
+Take a look at the "examples page":examples.html
+
+h2. News
+
+Follow the latest news with the Blog:  "Google calendar API for Ruby and Rails":http://googlecalendar4rails.blogspot.com/
+
+h2. Contribution
+
+See the "Contribution page":contribution.html for more details
+
+h2. License
+
+This code is free to use under the terms of the MIT license. 

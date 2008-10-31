@@ -1,0 +1,28 @@
+/* 
+Stylesheet for ruby syntax
+*/
+
+pre, code {
+  font-family: monospace;
+  font-size: 120%;
+  line-height: 1.4em;
+  color: #ff8;
+  background-color: #111;
+  padding: 2px 10px 2px 10px;
+  margin: 10px 0px 10px 0px;
+}
+.comment { color: #aaa; font-style: italic; }
+.keyword { color: #eff; font-weight: bold; }
+.punct { color: #eee; font-weight: bold; }
+.symbol { color: #0bb; }
+.string { color: #6b4; }
+.ident { color: #ff8; }
+.constant { color: #66f; }
+.regex { color: #ec6; }
+.number { color: #F99; }
+.expr { color: #227; }
+.success { color: #0CC52B;}
+.failed { color: #E90A1B;}
+.unknown { color: #995000;}
+.clickable { cursor: pointer; cursor: hand;}
+

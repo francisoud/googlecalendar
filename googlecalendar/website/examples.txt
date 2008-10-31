@@ -1,0 +1,103 @@
+h1. Googlecalendar - Examples
+
+h2. Adding an Event
+
+<pre syntax="ruby">
+require 'googlecalendar'
+g = GData.new
+g.login('REPLACE_WITH_YOUR_MAIL@gmail.com', 'REPLACE_WITH_YOUR_PASSWORD')
+event = { :title     => 'title',
+          :content   => 'content',
+          :author    => 'pub.cog',
+          :email     => 'pub.cog@gmail.com',
+          :where     => 'Toulouse,France',
+          :startTime => '2007-06-06T15:00:00.000Z',
+          :endTime   => '2007-06-06T17:00:00.000Z'}
+g.new_event(event)
+</pre>
+
+h2. Quick Add
+
+<pre syntax="ruby">
+require 'googlecalendar'
+g = GData.new
+g.login('REPLACE_WITH_YOUR_MAIL@gmail.com', 'REPLACE_WITH_YOUR_PASSWORD')
+g.quick_add('Tennis with John December 03 3pm-4:30pm')
+</pre>
+
+h2. Text export
+
+<pre syntax="ruby">
+require 'googlecalendar'
+require 'googlecalendar_builders'
+data = scan '/calendar/ical/french@holiday.calendar.google.com/public/basic'
+calendar = parse data
+text calendar, 'output/results.txt'
+</pre>
+
+h2. Html export
+
+<pre syntax="ruby">
+require 'googlecalendar'
+require 'googlecalendar_builders'
+data = scan '/calendar/ical/french@holiday.calendar.google.com/public/basic'
+calendar = parse data
+html calendar, 'output/results.html'
+</pre>
+
+h2. Atom Parsing
+
+<pre syntax="ruby">
+require 'googlecalendar'
+require 'rexml/document'
+include REXML
+
+def get_calendar_titles(atom)
+  XPath.match(atom, "/feed/entry/title") 
+end
+
+g = GData.new
+g.login('REPLACE_WITH_YOUR_MAIL@gmail.com', 'REPLACE_WITH_YOUR_PASSWORD')
+dog = g.get_calendars()
+atom = Document.new dog.body
+get_calendar_titles(atom).each { |node| puts node.text }
+</pre>
+
+h2. New Event using  not default calendar
+
+<pre syntax="ruby">
+require 'googlecalendar'
+g = GData.new
+token = g.login('REPLACE_WITH_YOUR_MAIL@gmail.com', 'REPLACE_WITH_YOUR_PASSWORD')
+event = { :title     => 'title',
+          :content   => 'content',
+          :author    => 'pub.cog',
+          :email     => 'pub.cog@gmail.com',
+          :where     => 'Toulouse,France',
+          :startTime => '2007-06-06T15:00:00.000Z',
+          :endTime   => '2007-06-06T17:00:00.000Z'}
+g.new_event(event, 'my_NOT_default_calendar')
+</pre>
+
+h2. Proxy parse
+
+Where 'xxx.xxx.xxx.xxx' is the proxy address
+
+<pre syntax="ruby">
+require 'googlecalendar'
+def proxy_parse
+  data = scan_proxy('xxx.xxx.xxx.xxx', 3128, french_holidays)
+  calendar = parse data
+end
+
+proxy_parse
+</pre>
+
+h2. XXX
+
+<pre syntax="ruby">
+</pre>
+
+h2. Other examples
+
+Take a look at "http://googlecalendar.rubyforge.org/svn/trunk/googlecalendar/examples/ruby_standalone/":http://googlecalendar.rubyforge.org/svn/trunk/googlecalendar/examples/ruby_standalone/
