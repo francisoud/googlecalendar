@@ -1,4 +1,4 @@
-module GoogleCalendar
+module Googlecalendar
   class ICALParser
     attr_reader :calendar
     
@@ -13,8 +13,15 @@ module GoogleCalendar
       return @calendar
     end
     
+    # An ICal line consist of 2 part XXX: YYYY
+    # Get the first part of the line and after a small transformation call the appropriate method
+    # example: 
+    #   line is: VCALENDAR:BEGIN 
+    #            VERSION:VALUE
+    #   method call: handle_vcalendar_version
+    # kind of work like a sax parser...
     def handle_element(line)
-      pair = line.split(':')
+      pair = line.split(':', 2) # avoid problems when summary contains ':'
       name = pair[0]
       value = pair[1]
       handler_method = @method_prefix + name.split(';')[0].tr('-', '_').downcase
@@ -44,6 +51,10 @@ module GoogleCalendar
       @method_prefix = @method_prefix + value.downcase + "_"
     end
   
+#    def handle_vcalendar_prodid(value)
+#      @calendar.product_id = value
+#    end
+
     def handle_vcalendar_version(value)
       @calendar.version = value
     end
@@ -112,4 +123,4 @@ module GoogleCalendar
       @calendar.events.last.location = value
     end
   end # class ICALParser
-end # module GoogleCalendar
+end # module Googlecalendar

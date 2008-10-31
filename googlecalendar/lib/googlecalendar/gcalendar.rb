@@ -1,4 +1,4 @@
-module GoogleCalendar
+module Googlecalendar
   class GCalendar
     attr_reader :title, :url
   
@@ -7,4 +7,4 @@ module GoogleCalendar
       @url = url
     end
   end # class GCalendar
-end # module GoogleCalendar
+end # module Googlecalendar

@@ -1,0 +1,14 @@
+Thanks a lot for installing googlecalendar for ruby ;)
+
+If you are migrating from version 0.0.x to 1.0.0, you will need to add:
+
+require 'googlecalendar'
+** include Googlecalendar **
+
+If you where using the 'builders' with:
+require 'builders' # DEPRECATED
+is replaced by 
+require 'googlecalendar_builders'
+
+For more information on googlecalendar, see http://googlecalendar.rubyforge.org
+

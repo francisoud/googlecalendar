@@ -3,7 +3,7 @@ require 'net/https'
 require 'uri'
 require "rexml/document"
 
-module GoogleCalendar
+module Googlecalendar
   # A ruby class to wrap calls to the Google Data API
   # 
   # More informations
@@ -17,6 +17,33 @@ module GoogleCalendar
       @google_url = google
     end
     
+    #Convinient method to create the conf file use in login_with_conf_file
+    #if you don't want to create it by hand
+    def self.create_conf_file(email, pwd)
+      p = {'email' => email, 'password' => pwd}
+      path = File.expand_path("~/.googlecalendar4ruby/google.yaml")
+      f = File.new(path, File::CREAT|File::TRUNC|File::RDWR)
+      f << p.to_yaml
+      f.close
+    end
+    
+    #Log into google data
+    #This method is basically the same as the login with user and password 
+    #but it tries to find a ~/.googlecalendar4ruby/google.yml
+    #Use this if you don't want to hardcode your user/password in your .rb files
+    def login_with_conf_file(file='~/.googlecalendar4ruby/google.yaml')
+      path = File.expand_path(file)
+      if(File.exists?(path))
+        File.open(path) { |f| @yaml = YAML::load(f) }
+      else
+        GData::create_conf_file('REPLACE_WITH_YOUR_MAIL@gmail.com', 'REPLACE_WITH_YOUR_PASSWORD')
+        throw "Created a default file in: #{path}, you need to edit it !!"
+      end 
+      email = @yaml['email'] 
+      pwd = @yaml['password']
+      login(email, pwd)
+    end # login
+
     #Log into google data, this method needs to be call once before using other methods of the class
     #* Email   The user's email address.
     #* Passwd  The user's password.
@@ -39,7 +66,7 @@ module GoogleCalendar
          'Content-Type'  => 'application/atom+xml'
        }
        return @token
-    end
+    end # login
   
     # Reset reminders
     def reset_reminders(event)
@@ -67,7 +94,7 @@ module GoogleCalendar
   </entry>
   EOF
       post_event(content)
-    end
+    end # quick_add
   
     #'event' param is a hash containing 
     #* :title
@@ -108,7 +135,7 @@ module GoogleCalendar
       else
         response.error!
       end
-    end
+    end # post_event
   
     # Retreive user's calendar urls.
     def get_calendars
@@ -132,7 +159,7 @@ module GoogleCalendar
       else
         response.error!
       end
-    end
+    end # get_calendars
     
     def find_calendar(x)
       @calendars.find {|c| c.title.match x}
@@ -140,30 +167,30 @@ module GoogleCalendar
   
     # The atom event template to submit a new event
     def template(event={})
-    content = <<EOF
-  <?xml version="1.0"?>
-  <entry xmlns='http://www.w3.org/2005/Atom'
-      xmlns:gd='http://schemas.google.com/g/2005'>
-    <category scheme='http://schemas.google.com/g/2005#kind'
-      term='http://schemas.google.com/g/2005#event'></category>
-    <title type='text'>#{event[:title]}</title>
-    <content type='text'>#{event[:content]}</content>
-    <author>
-      <name>#{event[:author]}</name>
-      <email>#{event[:email]}</email>
-    </author>
-    <gd:transparency
-      value='http://schemas.google.com/g/2005#event.opaque'>
-    </gd:transparency>
-    <gd:eventStatus
-      value='http://schemas.google.com/g/2005#event.confirmed'>
-    </gd:eventStatus>
-    <gd:where valueString='#{event[:where]}'></gd:where>
-    <gd:when startTime='#{event[:startTime]}' endTime='#{event[:endTime]}'>
-      #{event[:reminders]}
-    </gd:when>
-  </entry>
-  EOF
-    end
-  end # GData class
-end # module GoogleCalendar
+  content = <<EOF
+<?xml version="1.0"?>
+<entry xmlns='http://www.w3.org/2005/Atom'
+    xmlns:gd='http://schemas.google.com/g/2005'>
+  <category scheme='http://schemas.google.com/g/2005#kind'
+    term='http://schemas.google.com/g/2005#event'></category>
+  <title type='text'>#{event[:title]}</title>
+  <content type='text'>#{event[:content]}</content>
+  <author>
+    <name>#{event[:author]}</name>
+    <email>#{event[:email]}</email>
+  </author>
+  <gd:transparency
+    value='http://schemas.google.com/g/2005#event.opaque'>
+  </gd:transparency>
+  <gd:eventStatus
+    value='http://schemas.google.com/g/2005#event.confirmed'>
+  </gd:eventStatus>
+  <gd:where valueString='#{event[:where]}'></gd:where>
+  <gd:when startTime='#{event[:startTime]}' endTime='#{event[:endTime]}'>
+    #{event[:reminders]}
+  </gd:when>
+</entry>
+EOF
+    end # template
+  end # GData class  
+end # module Googlecalendar

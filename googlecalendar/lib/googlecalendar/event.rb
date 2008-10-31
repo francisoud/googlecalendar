@@ -1,4 +1,4 @@
-module GoogleCalendar
+module Googlecalendar
   class Event
     attr_accessor :start_date, :end_date, :time_stamp, :class_name, :created, :last_modified, :status, :summary, :description, :location, :rrule
     
@@ -29,4 +29,4 @@ module GoogleCalendar
       return hash
     end
   end # class Event
-end # module GoogleCalendar
+end # module Googlecalendar

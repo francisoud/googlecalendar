@@ -1,18 +1,10 @@
-$:.unshift File.dirname(__FILE__)
+$:.unshift(File.dirname(__FILE__)) unless
+  $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
-module GoogleCalendar
-  # List of googlecalendar lib files to include
-  FILES = %w{builders.rb calendar.rb dsl.rb event.rb gcalendar.rb gdata.rb ical.rb net.rb}
+module Googlecalendar
+  # List of lib files to include
+  FILES = %w{calendar.rb dsl.rb event.rb gcalendar.rb gdata.rb ical.rb net.rb version.rb}
 end
 
 # Add all FILES as require
-GoogleCalendar::FILES.each { |f| require "googlecalendar/#{f}"}
-
-
-
-require 'net/http'
-require 'net/https'
-require 'uri'
-require "rexml/document"
-
-
+Googlecalendar::FILES.each { |f| require "googlecalendar/#{f}"}

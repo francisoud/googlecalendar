@@ -1,4 +1,15 @@
 = Versions
+=== 1.0.0 (Nov 18th, 2008)
+* New svn repository layout (with trunk, branches and tags)
+* Using newgen for project maintenance and website generation
+* Old website http://benjamin.francisoud.googlepages.com/googlecalendar is DEPRECATED
+* New website http://googlecalendar.rubyforge.org
+* Changed from Apache License to MIT License - no big deal, googlecalendar for ruby is still free to use,modify, extend and will ever be ;)s
+* Fixed a bug when parsing a calendar summary with ':' in it
+Thanks to Gregor Schmidt for his contribution :)
+*
+
+ 
 === 0.0.6 (Dec 03rd, 2007)
 * Added add_reminder and reset_reminders to GData (see examples/ruby_standalone/gdata_new_event_reminder.rb)
 Contribution: Nicolas Fouché

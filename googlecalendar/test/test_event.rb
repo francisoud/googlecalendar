@@ -1,6 +1,6 @@
-require 'lib/googlecalendar.rb'
+require File.dirname(__FILE__) + '/test_helper.rb'
 
-class RecurrentTest < Test::Unit::TestCase
+class EventTest < Test::Unit::TestCase
   def test_rrule_as_hash
     e = Event.new
     e.rrule = 'FREQ=WEEKLY;BYDAY=MO;WKST=MO'

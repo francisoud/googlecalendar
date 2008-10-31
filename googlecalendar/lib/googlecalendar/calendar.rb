@@ -1,4 +1,4 @@
-module GoogleCalendar
+module Googlecalendar
   class Calendar
     attr_accessor :product_id, :version, :scale, :method, :events
     
@@ -20,4 +20,4 @@ module GoogleCalendar
       return data
     end
   end
-end # module GoogleCalendar
+end # module Googlecalendar
