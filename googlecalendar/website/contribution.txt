@@ -31,12 +31,9 @@ Or you can hack website/index.txt and make it all go away!!
 
 <% end %>
 
-* github: "http://github.com/GITHUB_USERNAME/googlecalendar/tree/master":http://github.com/GITHUB_USERNAME/googlecalendar/tree/master
+* github: "http://github.com/francisoud/googlecalendar/tree/master":http://github.com/GITHUB_USERNAME/googlecalendar/tree/master
 
-<pre>git clone git://github.com/GITHUB_USERNAME/googlecalendar.git</pre>
-
-
-TODO - add "github_username: username" to ~/.rubyforge/user-config.yml and newgem will reuse it for future projects.
+<pre>git clone git://github.com/francisoud/googlecalendar.git</pre>
 
 
 * gitorious: "git://gitorious.org/googlecalendar/mainline.git":git://gitorious.org/googlecalendar/mainline.git
