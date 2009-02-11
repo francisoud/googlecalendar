@@ -22,6 +22,10 @@ module Googlecalendar
     def self.create_conf_file(email, pwd)
       p = {'email' => email, 'password' => pwd}
       path = File.expand_path("~/.googlecalendar4ruby/google.yaml")
+      unless File.exists?(path)
+        puts "Creating file in #{path}"
+        Dir.mkdir(File.dirname(path))
+      end
       f = File.new(path, File::CREAT|File::TRUNC|File::RDWR)
       f << p.to_yaml
       f.close
@@ -88,11 +92,11 @@ module Googlecalendar
     # http://code.google.com/apis/calendar/developers_guide_protocol.html#CreatingQuickAdd
     def quick_add(text)
     content = <<EOF
-  <entry xmlns='http://www.w3.org/2005/Atom' xmlns:gCal='http://schemas.google.com/gCal/2005'>
-    <content type="html">#{text}</content>
-    <gCal:quickadd value="true"/>
-  </entry>
-  EOF
+<entry xmlns='http://www.w3.org/2005/Atom' xmlns:gCal='http://schemas.google.com/gCal/2005'>
+  <content type="html">#{text}</content>
+  <gCal:quickadd value="true"/>
+</entry>
+EOF
       post_event(content)
     end # quick_add
   

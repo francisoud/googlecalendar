@@ -1,0 +1,3 @@
+avoid modifiying every examples files to test googlecalendar functions to add login/pwd
+gdata_new_event.rb => use env[] to get my not default calendar
+add automatic date creation

@@ -1,6 +1,6 @@
 # require File.dirname(__FILE__) + '/googlecalendar'
 
-module GoogleCalendar
+module Googlecalendar
   class TextBuilder
     attr_accessor :calendar, :filename
     
@@ -15,9 +15,9 @@ module GoogleCalendar
       end
     end
   end # class TextBuilder
-end # module GoogleCalendar
+end # module Googlecalendar
 
-module GoogleCalendar
+module Googlecalendar
   class HtmlBuilder
     attr_accessor :calendar, :filename, :date_format
     
@@ -30,9 +30,9 @@ module GoogleCalendar
       File.open(@filename, File::CREAT|File::RDWR) do |file|
         file << "<html><head>\n"
         file << "<title>Calendar</tilte>\n"
-        IO.foreach("html/styles.css") { |line| file << line } 
+        IO.foreach("../../html/styles.css") { |line| file << line } 
         file << "\n"
-        IO.foreach("html/scripts.js") { |line| file << line } 
+        IO.foreach("../../html/scripts.js") { |line| file << line } 
         file << "\n</head>\n<body>"
         file << summary
         event_number = 0
@@ -82,6 +82,4 @@ module GoogleCalendar
       "<div><b>" + field.capitalize + ": </b>" + object.send(field).to_s + "</div>\n"
     end
   end # class HtmlBuilder
-end # module module GoogleCalendar
-
-
+end # module module Googlecalendar

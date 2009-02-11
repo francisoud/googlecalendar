@@ -3,7 +3,7 @@ require 'net/http'
 # require 'uri'
 
 def parse(data)
-    parser = ICALParser.new
+    parser = Googlecalendar::ICALParser.new
     parser.parse(data)
 end
 
@@ -33,14 +33,18 @@ end
 
 # Builder DSL
 def text(calendar, filename)
-    text_builder = TextBuilder.new
+    dirname = File.dirname(filename)
+    Dir.mkdir(dirname) unless File.exists?(dirname)
+    text_builder = Googlecalendar::TextBuilder.new
     text_builder.calendar = calendar
     text_builder.filename = filename
     text_builder.export
 end
 
 def html(calendar, filename)
-    html_builder = HtmlBuilder.new
+    dirname = File.dirname(filename)
+    Dir.mkdir(dirname) unless File.exists?(dirname) 
+    html_builder = Googlecalendar::HtmlBuilder.new
     html_builder.calendar = calendar
     html_builder.filename = filename
     html_builder.date_format = "%d-%m-%y" #"%F"#"%A %B %d %Y" #"%d-%m-%Y"
