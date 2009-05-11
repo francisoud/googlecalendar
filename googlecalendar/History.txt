@@ -1,4 +1,8 @@
 = Versions
+=== 1.1.0 (May 11th, 2009)
+* Adding delete_event method 
+Thanks to Phillip Atkinson for his contribution :) 
+
 === 1.0.0 (Nov 18th, 2008)
 * New svn repository layout (with trunk, branches and tags)
 * Using newgen for project maintenance and website generation
