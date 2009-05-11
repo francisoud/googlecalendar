@@ -196,5 +196,28 @@ EOF
 </entry>
 EOF
     end # template
+
+    # method to allow deleting an event from a google calendar
+    def delete_event(event_url, if_match = '*')
+       # create required deletion headers
+       delete_headers = @headers.merge({'If-Match' => if_match})
+
+       # now delete it
+       http = Net::HTTP.new(@google_url, 80)
+       response, data = http.delete(event_url, delete_headers)
+       case response
+       when Net::HTTPSuccess, Net::HTTPRedirection
+         redirect_response, redirect_data = http.delete(response['location'], delete_headers)
+         case redirect_response
+         when Net::HTTPSuccess, Net::HTTPRedirection
+           return redirect_data
+         else
+           return redirect_response.error!
+         end
+       else
+         return response.error!
+       end
+       return data
+     end # delete_event
   end # GData class  
 end # module Googlecalendar
