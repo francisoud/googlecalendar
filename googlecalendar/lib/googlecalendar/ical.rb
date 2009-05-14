@@ -80,11 +80,11 @@ module Googlecalendar
     end
   
     def handle_vevent_dtstart(value)
-      @calendar.events.last.start_date = Date.parse(value)
+      @calendar.events.last.start_date = DateTime.parse(value)
     end
   
     def handle_vevent_dtend(value)
-      @calendar.events.last.end_date = Date.parse(value)
+      @calendar.events.last.end_date = DateTime.parse(value)
     end
   
     def handle_vevent_dtstamp(value)

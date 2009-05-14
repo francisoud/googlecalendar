@@ -1,4 +1,7 @@
 = Versions
+=== 1.1.1 (May 14th, 2009)
+* Fix ICal parser bug - event start end date can be datetime not only date
+
 === 1.1.0 (May 11th, 2009)
 * Adding delete_event method 
 Thanks to Phillip Atkinson for his contribution :) 
