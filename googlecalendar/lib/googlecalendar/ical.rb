@@ -3,6 +3,46 @@ module Googlecalendar
     attr_reader :calendar
     
     def parse(data)
+      while data.sub!(/\r\n /, '')
+        # Unfold; for more info take a look at RFC 2445 (iCalendar), section 4.1
+=begin
+        4.1 Content Lines
+
+           The iCalendar object is organized into individual lines of text,
+           called content lines. Content lines are delimited by a line break,
+           which is a CRLF sequence (US-ASCII decimal 13, followed by US-ASCII
+           decimal 10).
+
+           Lines of text SHOULD NOT be longer than 75 octets, excluding the line
+           break. Long content lines SHOULD be split into a multiple line
+           representations using a line "folding" technique. That is, a long
+           line can be split between any two characters by inserting a CRLF
+           immediately followed by a single linear white space character (i.e.,
+           SPACE, US-ASCII decimal 32 or HTAB, US-ASCII decimal 9). Any sequence
+           of CRLF followed immediately by a single linear white space character
+           is ignored (i.e., removed) when processing the content type.
+
+           For example the line:
+
+             DESCRIPTION:This is a long description that exists on a long line.
+
+           Can be represented as:
+
+             DESCRIPTION:This is a lo
+              ng description
+               that exists on a long line.
+
+           The process of moving from this folded multiple line representation
+           to its single line representation is called "unfolding". Unfolding is
+           accomplished by removing the CRLF character and the linear white
+           space character that immediately follows.
+
+           When parsing a content line, folded lines MUST first be unfolded
+           according to the unfolding procedure described above. When generating
+           a content line, lines longer than 75 octets SHOULD be folded
+           according to the folding procedure described above.
+=end
+      end
       lines = data.split("\n")
       
       reset_prefix

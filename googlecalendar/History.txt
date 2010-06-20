@@ -1,4 +1,7 @@
 = Versions
+=== 1.1.2 [atzkey] (June 21st, 2010)
+* Fix parser bug - handle folded strings
+* Fix tests
 === 1.1.1 (May 14th, 2009)
 * Fix ICal parser bug - event start end date can be datetime not only date
 
